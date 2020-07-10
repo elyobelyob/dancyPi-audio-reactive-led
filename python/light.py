@@ -13,7 +13,7 @@ LED_DMA = config.LED_DMA  # DMA channel to use for generating signal (try 10)
 LED_BRIGHTNESS = config.BRIGHTNESS  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = config.LED_INVERT  # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
-
+LED_COLOUR = "255, 255, 255"
 
 # Define functions which animate LEDs in various ways.
 def color_wipe(strip, color, wait_ms=50):
@@ -35,4 +35,4 @@ if __name__ == '__main__':
     # Intialize the library (must be called once before other functions).
     strip.begin()
 
-    color_wipe(strip, Color(255, 255, 255), 0)
+    color_wipe(strip, Color(LED_COLOUR), 0)

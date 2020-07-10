@@ -13,6 +13,9 @@ and commands will be sent to the ESP8266 over WiFi.
 'pi' means that you are using a Raspberry Pi as a standalone unit to process
 audio input and control the LED strip directly.
 
+'mqtt' means that you are using a Raspberry Pi as a standalone unit to send the
+audio LED strip data to a PubSub.
+
 'blinkstick' means that a BlinkstickPro is connected to this PC which will be used
 to control the leds connected to it.
 """
@@ -39,6 +42,11 @@ if DEVICE == 'pi':
     SOFTWARE_GAMMA_CORRECTION = True
     """Set to True because Raspberry Pi doesn't use hardware dithering"""
 
+if DEVICE == 'mqtt':
+    HOST = secret
+    USER = secret
+    PASS = secret
+
 if DEVICE == 'blinkstick':
     SOFTWARE_GAMMA_CORRECTION = True
     """Set to True because blinkstick doesn't use hardware dithering"""
@@ -49,7 +57,7 @@ USE_GUI = False
 DISPLAY_FPS = True
 """Whether to display the FPS when running (can reduce performance)"""
 
-N_PIXELS = 144
+N_PIXELS = 188
 """Number of pixels in the LED strip (must match ESP8266 firmware)"""
 
 GAMMA_TABLE_PATH = os.path.join(os.path.dirname(__file__), 'gamma_table.npy')

@@ -271,10 +271,6 @@ visualization_effect = visualization_type
 
 
 if __name__ == '__main__':
-    client = paho.Client()
-    client.on_message = on_message
-    client.on_publish = on_publish
-
 
     # Initialize LEDs
     led.update()

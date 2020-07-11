@@ -231,7 +231,7 @@ def microphone_update(audio_samples):
         output = visualization_effect(mel)
         #led.pixels = output
         # print(mel)
-         print(output)
+        print(output)
         # publish.single(topic="discopi/music/data/", payload=mel, hostname=host)
         #led.update()
 

@@ -229,11 +229,11 @@ def microphone_update(audio_samples):
         mel = mel_smoothing.update(mel)
         # Map filterbank output onto LED strip
         output = visualization_effect(mel)
-        led.pixels = output
+        #led.pixels = output
         # print(mel)
-        # print(output)
+         print(output)
         # publish.single(topic="discopi/music/data/", payload=mel, hostname=host)
-        led.update()
+        #led.update()
 
     if config.DISPLAY_FPS:
         fps = frames_per_second()

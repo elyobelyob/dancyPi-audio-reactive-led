@@ -22,7 +22,7 @@ _fps = dsp.ExpFilter(val=config.FPS, alpha_decay=0.2, alpha_rise=0.2)
 """The low-pass filter used to estimate frames-per-second"""
 
 
-def ():
+def frames_per_second():
     """Return the estimated frames per second
 
     Returns the current estimate for frames-per-second (FPS).

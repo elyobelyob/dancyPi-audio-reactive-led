@@ -229,20 +229,10 @@ def microphone_update(audio_samples):
         mel = mel_smoothing.update(mel)
         # Map filterbank output onto LED strip
         output = visualization_effect(mel)
-        led.pixels = output
-        publish.single(topic="discopi/music/data/", payload=output, hostname=host)
+        #led.pixels = output
+        publish.single(topic="discopi/music/data/", payload=mel, hostname=host)
 
         led.update()
-        if config.USE_GUI:
-            # Plot filterbank output
-            x = np.linspace(config.MIN_FREQUENCY, config.MAX_FREQUENCY, len(mel))
-            mel_curve.setData(x=x, y=fft_plot_filter.update(mel))
-            # Plot the color channels
-            r_curve.setData(y=led.pixels[0])
-            g_curve.setData(y=led.pixels[1])
-            b_curve.setData(y=led.pixels[2])
-    if config.USE_GUI:
-        app.processEvents()
 
     if config.DISPLAY_FPS:
         fps = frames_per_second()
@@ -264,7 +254,7 @@ elif sys.argv[1] == "energy":
 elif sys.argv[1] == "scroll":
         visualization_type = visualize_scroll
 else:
-        visualization_type = visualize_spectrum
+        visualization_type = visualize_scroll
 
 visualization_effect = visualization_type
 """Visualization effect to display on the LED strip"""

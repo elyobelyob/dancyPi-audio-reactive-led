@@ -230,7 +230,7 @@ def microphone_update(audio_samples):
         # Map filterbank output onto LED strip
         output = visualization_effect(mel)
         led.pixels = output
-        publish.single(topic="discopi/music/data/", payload="0,255,255,255", hostname=host)
+        publish.single(topic="discopi/music/data/", payload=output, hostname=host)
 
         led.update()
         if config.USE_GUI:

@@ -232,7 +232,7 @@ def microphone_update(audio_samples):
 
         #print(mel)
         #print(output)
-        publish.single(topic="discopi/music/data/", payload=mel, hostname=host)
+        #publish.single(topic="discopi/music/data/", payload=mel, hostname=host)
         led.pixels = output
         led.update()
 

@@ -9,6 +9,8 @@ import dsp
 import led
 import sys
 import paho.mqtt.publish as publish
+import datetime from datetime
+
 
 """ mqtt temp """
 host = "localhost"
@@ -108,6 +110,31 @@ p = np.tile(1.0, (3, config.N_PIXELS // 2))
 gain = dsp.ExpFilter(np.tile(0.01, config.N_FFT_BINS),
                      alpha_decay=0.001, alpha_rise=0.99)
 
+def visualize_clock(y):
+    """Effect that creates a clock from centre"""
+    global p
+    y = y**2.0
+    # gain.update(y)
+    #y /= gain.value
+    y *= 255.0
+    r = int(np.max(y[:len(y) // 3]))
+    g = int(np.max(y[len(y) // 3: 2 * len(y) // 3]))
+    b = int(np.max(y[2 * len(y) // 3:]))
+
+    now = datetime.now()
+    rhour = (60/config.N_PIXEL)*now.hour)
+    rminute = (60/config.N_PIXEL)*now.minute)
+    rsecond = (60/config.N_PIXEL)*now.second)
+
+    publish.single(topic="discopi/music/data/", payload=(rhour-1)+",0,0,0", hostname=host)
+    publish.single(topic="discopi/music/data/", payload=rhour+",255,0,0", hostname=host)
+    publish.single(topic="discopi/music/data/", payload=(rminute-1)+",34,139,34", hostname=host)
+    publish.single(topic="discopi/music/data/", payload=rminute+",34,139,34", hostname=host)
+    publish.single(topic="discopi/music/data/", payload=(rsecond-1)+",255,255,0", hostname=host)
+    publish.single(topic="discopi/music/data/", payload=rsecond+",255,255,0", hostname=host)
+
+    # Update the LED strip
+    return np.concatenate((p[:, ::-1], p), axis=1)
 
 def visualize_scroll(y):
     """Effect that originates in the center and scrolls outwards"""
@@ -129,7 +156,6 @@ def visualize_scroll(y):
     p[2, 0] = b
     # Update the LED strip
     return np.concatenate((p[:, ::-1], p), axis=1)
-
 
 def visualize_energy(y):
     """Effect that expands from the center with increasing sound energy"""
@@ -249,14 +275,16 @@ samples_per_frame = int(config.MIC_RATE / config.FPS)
 # Array containing the rolling audio sample window
 y_roll = np.random.rand(config.N_ROLLING_HISTORY, samples_per_frame) / 1e16
 
-if sys.argv[1] == "spectrum":
-        visualization_type = visualize_spectrum
+if sys.argv[1] == "clock":
+        visualization_type = visualize_clock
 elif sys.argv[1] == "energy":
         visualization_type = visualize_energy
 elif sys.argv[1] == "scroll":
         visualization_type = visualize_scroll
+elif sys.argv[1] == "spectrum":
+        visualization_type = visualize_spectrum
 else:
-        visualization_type = visualize_scroll
+        visualization_type = visualize_clock
 
 visualization_effect = visualization_type
 """Visualization effect to display on the LED strip"""
